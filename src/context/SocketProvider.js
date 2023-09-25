@@ -20,7 +20,7 @@ export function SocketProvider({ children }) {
   console.log(socket);
   useEffect(() => {
     if (!user) return;
-    const newSocket = io("http://localhost:3500", {
+    const newSocket = io("https://kategorije-backend.onrender.com", {
       query: { user },
     });
     setSocket(newSocket);
