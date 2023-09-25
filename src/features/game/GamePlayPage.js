@@ -79,12 +79,15 @@ export default function GamePlayPage() {
           })}
       </div>
       {currentUser?.username === user ? (
-        <Timer currentUser={currentUser} />
+        <div>
+          {" "}
+          <Timer currentUser={currentUser} />{" "}
+          <form onSubmit={hendleSubmit}>
+            <input type="text" ref={input} />
+            <button type="submit">submit</button>
+          </form>
+        </div>
       ) : null}{" "}
-      <form onSubmit={hendleSubmit}>
-        <input type="text" ref={input} />
-        <button type="submit">submit</button>
-      </form>
       <button
         onClick={() => {
           if (!socket) return;

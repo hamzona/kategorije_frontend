@@ -27,6 +27,9 @@ export default function GameBar() {
     if (!socket) return;
 
     socket.emit("rejoin-user", { socketID: id });
+    socket.on("win", () => {
+      console.log("you win");
+    });
   }, [socket]);
 
   return isGameStart ? (
