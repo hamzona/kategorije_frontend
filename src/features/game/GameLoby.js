@@ -10,7 +10,9 @@ export default function GameLoby({ setIsGameStart }) {
     if (!socket) return;
 
     socket.on("game-start", ({ users }) => {
-      setIsGameStart(true);
+      setTimeout(() => {
+        setIsGameStart(true);
+      }, 5000);
       socket.emit("gameplay-start", { socketID: id });
     });
 
