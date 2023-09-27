@@ -7,7 +7,7 @@ export default function GameStartsTimer({ setIsGamePlaying }) {
     // Create a timer that decreases the seconds every second
     const timer = setInterval(() => {
       if (seconds > 0) {
-        setSeconds(seconds - 1);
+        setSeconds((prev) => prev - 1);
       } else if (seconds === 0) {
         setIsGamePlaying(true);
       }

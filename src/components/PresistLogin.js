@@ -37,7 +37,7 @@ export default function PresistLogin() {
     content = (
       <div>
         please login again
-        <Link to={"/"}>login</Link>
+        <Link to={"/login"}>login</Link>
       </div>
     );
   }

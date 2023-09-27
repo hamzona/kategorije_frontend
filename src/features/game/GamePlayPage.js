@@ -22,7 +22,7 @@ export default function GamePlayPage() {
     });
 
     socket.on("redirect", () => {
-      navigate("/gamesList");
+      navigate("/");
     });
 
     socket.on("win", () => {
