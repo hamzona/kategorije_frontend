@@ -1,6 +1,7 @@
 import React from "react";
 import { useGetGamesQuery } from "./gameApiSlice";
 import { useNavigate } from "react-router-dom";
+import { Badge, Button, ListGroup } from "react-bootstrap";
 //import { useSocketID } from "../../context/SocketIDProvider";
 
 export default function GameList() {
@@ -13,6 +14,35 @@ export default function GameList() {
   let content;
   if (isSuccess) {
     content = (
+      <div style={{ width: "500px" }}>
+        {data.map((item) => {
+          return (
+            <ListGroup key={item._id} as="ol">
+              <ListGroup.Item
+                as="li"
+                className="d-flex justify-content-between align-items-center"
+              >
+                <div className="ms-2 me-auto">
+                  <div className="fw-bold"> {item.name}</div>
+                  {item.socketID}
+                </div>
+                <Button
+                  onClick={() => {
+                    navigate(`/game/${item.socketID}`);
+                  }}
+                >
+                  JOIN
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          );
+        })}
+      </div>
+    );
+
+    {
+      /* 
+
       <div>
         {data.map((item) => {
           return (
@@ -22,7 +52,6 @@ export default function GameList() {
               {item.socketID}
               <button
                 onClick={() => {
-                  //setSocketID(item.socketID);
                   navigate(`/game/${item.socketID}`);
                 }}
               >
@@ -31,8 +60,8 @@ export default function GameList() {
             </div>
           );
         })}
-      </div>
-    );
+      </div> */
+    }
   } else if (isLoading) {
     content = <div>Loading...</div>;
   } else if (isError) {

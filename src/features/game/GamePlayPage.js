@@ -24,14 +24,17 @@ export default function GamePlayPage() {
     socket.on("redirect", () => {
       navigate("/gamesList");
     });
+
+    socket.on("win", () => {
+      setYouWin(true);
+    });
   }, [socket]);
 
   const { id } = useParams();
 
   const [getData] = useGetDataMutation();
-  // const { socketID, setSocketID } = useSocketID();
+
   useEffect(() => {
-    //  setSocketID(id);
     async function a() {
       const data = await getData({ id });
       if (data?.data) {
@@ -52,6 +55,8 @@ export default function GamePlayPage() {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [coverdWords, setCoverdWords] = useState([]);
+  const [youWin, setYouWin] = useState(false);
+
   async function hendleSubmit(e) {
     e.preventDefault();
     console.log(socket);
@@ -61,6 +66,7 @@ export default function GamePlayPage() {
     input.current.value = "";
   }
   const user = useSelector(selectCurrentUser);
+
   return (
     <div>
       GamePlayPage
@@ -96,6 +102,7 @@ export default function GamePlayPage() {
       >
         Leave game
       </button>
+      {youWin ? "You win" : null}
     </div>
   );
 }

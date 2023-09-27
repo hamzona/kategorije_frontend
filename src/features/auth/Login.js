@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "./authSlice";
 import { useLoginMutation } from "./authApiSlice";
+import { Container, Form, Button } from "react-bootstrap";
 
 const Login = () => {
   const userRef = useRef();
@@ -32,7 +33,7 @@ const Login = () => {
       dispatch(setCredentials({ ...userData, user }));
       setUser("");
       setPwd("");
-      navigate("/welcome");
+      navigate("/login");
     } catch (err) {
       if (!err?.originalStatus) {
         // isLoading: true until timeout occurs
@@ -44,7 +45,7 @@ const Login = () => {
       } else {
         setErrMsg("Login Failed");
       }
-      errRef.current.focus();
+      //errRef.current.focus();
     }
   };
 
@@ -52,46 +53,64 @@ const Login = () => {
 
   const handlePwdInput = (e) => setPwd(e.target.value);
 
-  const content = isLoading ? (
-    <h1>Loading...</h1>
-  ) : (
-    <section className="login">
-      <p
-        ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
-        aria-live="assertive"
+  return (
+    <Container
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "100vh",
+      }}
+      //className="align-items-centar d-flex flex-column h-100 align-items-center justify-content-center"
+    >
+      <h1>Login</h1>
+
+      <Form
+        noValidate
+        //validated={validated}
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column" }}
       >
-        {errMsg}
-      </p>
+        <Form.Group>
+          <Form.Label>nickname</Form.Label>
 
-      <h1>Employee Login</h1>
+          <Form.Control
+            ref={userRef}
+            type="text"
+            value={user}
+            onChange={handleUserInput}
+            placeholder="nickname"
+            required
+          />
+          {/* <Form.Control.Feedback type="invalid">
+            Nickname is required!!
+          </Form.Control.Feedback> */}
+        </Form.Group>
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          ref={userRef}
-          value={user}
-          onChange={handleUserInput}
-          autoComplete="off"
-          required
-        />
+        <Form.Group>
+          <Form.Label>password</Form.Label>
 
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          onChange={handlePwdInput}
-          value={pwd}
-          required
-        />
-        <button>Sign In</button>
-      </form>
-      <Link to="/singup">singup</Link>
-    </section>
+          <Form.Control
+            type="password"
+            value={pwd}
+            onChange={handlePwdInput}
+            placeholder="password"
+            required
+          />
+          {/* <Form.Control.Feedback type="invalid">
+            Password is required!!
+          </Form.Control.Feedback> */}
+        </Form.Group>
+
+        <Button style={{ marginTop: "15px" }} type="submit">
+          submit
+        </Button>
+        <Form.Text muted>
+          If you dont have account already <Link to={"/singup"}>singup</Link>
+        </Form.Text>
+      </Form>
+    </Container>
   );
-
-  return content;
 };
 export default Login;
