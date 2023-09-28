@@ -35,9 +35,12 @@ export default function GameLoby({ setIsGamePlaying }) {
         if (result?.data) {
           setCurrentUsresNumber(result.data.users);
           setGamePlayersNumber(result.data.usersNumber);
-          setTimeout(() => {
+
+          setGameStartTimer(true);
+
+          /*setTimeout(() => {
             setIsGamePlaying(result.data.isGamePlaying);
-          }, 5000);
+          }, 5000);*/
         }
         console.log(result);
       } catch (e) {
@@ -61,7 +64,7 @@ export default function GameLoby({ setIsGamePlaying }) {
     <div className="d-flex flex-column justify-content-center align-items-center">
       <h1 className="m-4">Game Loby</h1>
       {gameStartTimer ? (
-        <GameStartsTimer setIsGamePlaying={setIsGamePlaying(true)} />
+        <GameStartsTimer setIsGamePlaying={setIsGamePlaying} />
       ) : (
         <div
           className="d-flex flex-column justify-content-center align-items-center"
@@ -74,10 +77,9 @@ export default function GameLoby({ setIsGamePlaying }) {
       <div className="d-flex flex-row justify-content-center align-items-center m-3">
         {gamePlayersArray.map((_, index) => {
           return (
-            <div>
+            <div key={index}>
               {currentUsersNumber[index] ? (
                 <Card
-                  key={index}
                   style={{ width: "18rem" }}
                   className="d-flex justify-content-center align-items-center m-3"
                 >

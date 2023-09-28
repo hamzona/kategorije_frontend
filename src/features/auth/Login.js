@@ -29,11 +29,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      console.log(user, pwd);
       const userData = await login({ user, pwd }).unwrap();
+      console.log(userData);
       dispatch(setCredentials({ ...userData, user }));
       setUser("");
       setPwd("");
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       if (!err?.originalStatus) {
         // isLoading: true until timeout occurs
