@@ -14,7 +14,7 @@ export default function GameList() {
   let content;
   if (isSuccess) {
     content = (
-      <div style={{ width: "500px" }}>
+      <div>
         {data.map((item) => {
           return (
             <ListGroup key={item._id} as="ol">
@@ -27,6 +27,7 @@ export default function GameList() {
                   {item.socketID}
                 </div>
                 <Button
+                  style={{ margin: "0px 20px" }}
                   onClick={() => {
                     navigate(`/game/${item.socketID}`);
                   }}
@@ -68,8 +69,8 @@ export default function GameList() {
     content = <div>{JSON.stringify(error)}</div>;
   }
   return (
-    <div>
-      <h1>Game list</h1>
+    <div className="m-5">
+      <h1 className="m-4">Game list</h1>
       {content}
     </div>
   );

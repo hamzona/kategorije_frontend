@@ -18,7 +18,6 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/createGame" element={<CreateGamePage />} />
-
             <Route path="/game/:id" element={<GameMain />} />
           </Route>
         </Route>

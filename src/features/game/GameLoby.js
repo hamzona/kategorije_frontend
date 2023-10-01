@@ -13,16 +13,17 @@ export default function GameLoby({ setIsGamePlaying }) {
     if (!socket) return;
 
     socket.on("game-start", () => {
-      setGameStartTimer(true);
-      setTimeout(() => {}, 5000);
-      //socket.emit("gameplay-start", { socketID: id });
+      setIsGamePlaying(true);
+      localStorage.removeItem("timerSeconds");
     });
 
-    socket.on("update-user", ({ user, usersNumber }) => {
-      if (usersNumber.length !== gamePlayersNumber) {
+    socket.on("update-user", ({ users, usersNumber }) => {
+      /*if (users !== usersNumber) {
         setGameStartTimer(false);
-      }
-      setCurrentUsresNumber(usersNumber);
+      }*/
+
+      setCurrentUsers(users);
+      setGamePlayersNumber(usersNumber);
     });
   }, [socket]);
 
@@ -33,14 +34,12 @@ export default function GameLoby({ setIsGamePlaying }) {
         const result = await getData({ id });
 
         if (result?.data) {
-          setCurrentUsresNumber(result.data.users);
+          setCurrentUsers(result.data.users);
           setGamePlayersNumber(result.data.usersNumber);
-
-          setGameStartTimer(true);
-
-          /*setTimeout(() => {
-            setIsGamePlaying(result.data.isGamePlaying);
-          }, 5000);*/
+          setIsGamePlaying(result.data.isGamePlaying);
+          if (result.data.usersNumber.length === result.data.users.length) {
+            // setGameStartTimer(true);
+          }
         }
         console.log(result);
       } catch (e) {
@@ -50,10 +49,8 @@ export default function GameLoby({ setIsGamePlaying }) {
     a();
   }, []);
   const [gameStartTimer, setGameStartTimer] = useState(false);
-  const [currentUsersNumber, setCurrentUsresNumber] = useState([]);
+  const [currentUsers, setCurrentUsers] = useState([]);
   const [gamePlayersNumber, setGamePlayersNumber] = useState(null);
-
-  console.log(currentUsersNumber);
 
   let gamePlayersArray = [];
 
@@ -63,39 +60,37 @@ export default function GameLoby({ setIsGamePlaying }) {
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
       <h1 className="m-4">Game Loby</h1>
-      {gameStartTimer ? (
+      {/* {gameStartTimer ? (
         <GameStartsTimer setIsGamePlaying={setIsGamePlaying} />
-      ) : (
-        <div
-          className="d-flex flex-column justify-content-center align-items-center"
-          style={{ margin: "5rem" }}
-        >
-          <SpinerAnimation />
-          <div className="m-3">Waiting for players...</div>
-        </div>
-      )}
+      ) : ( */}
+      <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={{ margin: "5rem" }}
+      >
+        <SpinerAnimation />
+        <div className="m-3">Waiting for players...</div>
+      </div>
+
       <div className="d-flex flex-row justify-content-center align-items-center m-3">
         {gamePlayersArray.map((_, index) => {
           return (
             <div key={index}>
-              {currentUsersNumber[index] ? (
+              {!currentUsers[index]?.username ? (
+                <div
+                  style={{ width: "18rem", fontSize: "2rem", margin: "0 1rem" }}
+                  className="border-bottom border-dark text-center"
+                >
+                  Player {index + 1}
+                </div>
+              ) : (
                 <Card
                   style={{ width: "18rem" }}
                   className="d-flex justify-content-center align-items-center m-3"
                 >
                   <Card.Body>
-                    <Card.Title>
-                      {currentUsersNumber[index].username}
-                    </Card.Title>
+                    <Card.Title>{currentUsers[index].username}</Card.Title>
                   </Card.Body>
                 </Card>
-              ) : (
-                <div
-                  style={{ width: "18rem", fontSize: "2rem" }}
-                  className="border-bottom border-dark text-center"
-                >
-                  Player {index + 1}
-                </div>
               )}
             </div>
           );

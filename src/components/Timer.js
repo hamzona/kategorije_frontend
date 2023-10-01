@@ -15,7 +15,7 @@ export default function Timer({ currentUser }) {
 
   useEffect(() => {
     socket.on("success", () => {
-      localStorage.setItem("timerSeconds", seconds);
+      localStorage.setItem("timerSeconds", 30);
       setSeconds(30);
     });
   }, [socket]);
@@ -35,5 +35,10 @@ export default function Timer({ currentUser }) {
     return () => clearInterval(timer);
   }, [seconds]);
 
-  return <div>{seconds}</div>;
+  return (
+    <h1 className="border p-4 rounded" style={{ fontSize: "6vh" }}>
+      {" "}
+      {seconds}
+    </h1>
+  );
 }

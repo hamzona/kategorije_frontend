@@ -18,8 +18,12 @@ export default function GameStartsTimer({ setIsGamePlaying }) {
   }, [seconds]);
 
   return (
-    <div>
-      <h1>Timer: {seconds} seconds</h1>
+    <div
+      style={{ margin: "5rem" }}
+      className="d-flex flex-column justify-content-center align-items-center"
+    >
+      <div style={{ fontSize: "2vw" }}>Game starts in</div>
+      <div style={{ fontSize: "5vw" }}>{seconds}</div>
     </div>
   );
 }

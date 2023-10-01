@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useCreateGameMutation } from "./gameApiSlice";
+import { Button, Form } from "react-bootstrap";
 
 export default function CreateGamePage() {
   const [createGame] = useCreateGameMutation();
@@ -23,13 +24,30 @@ export default function CreateGamePage() {
   }
 
   return (
-    <div>
+    <div
+      className="d-flex flex-column justify-content-center align-items-center"
+      style={{ height: "90vh" }}
+    >
       <h1>Create game</h1>
-      <form onSubmit={hendleSubmit}>
+
+      <Form onSubmit={hendleSubmit} className="border p-4 rounded">
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Game name</Form.Label>
+          <Form.Control type="text" placeholder="Enter game name" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Number of players</Form.Label>
+          <Form.Control type="number" placeholder="Enter number of players" />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+      {/* <form onSubmit={hendleSubmit}>
         <input type="text" ref={gameName} />
         <input type="number" ref={usersNumber} />
         <button type="submit">submit</button>
-      </form>
+      </form> */}
     </div>
   );
 }

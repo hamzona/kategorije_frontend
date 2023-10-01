@@ -3,7 +3,7 @@ import GameList from "../features/game/GameList";
 
 export default function Home() {
   return (
-    <div>
+    <div className="d-flex justify-content-center" style={{ width: "100vw" }}>
       <GameList />
     </div>
   );
