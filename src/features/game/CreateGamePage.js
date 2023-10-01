@@ -33,11 +33,19 @@ export default function CreateGamePage() {
       <Form onSubmit={hendleSubmit} className="border p-4 rounded">
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Game name</Form.Label>
-          <Form.Control type="text" placeholder="Enter game name" />
+          <Form.Control
+            type="text"
+            placeholder="Enter game name"
+            ref={gameName}
+          />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Number of players</Form.Label>
-          <Form.Control type="number" placeholder="Enter number of players" />
+          <Form.Control
+            type="number"
+            placeholder="Enter number of players"
+            ref={usersNumber}
+          />
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit
