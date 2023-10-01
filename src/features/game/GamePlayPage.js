@@ -96,7 +96,9 @@ export default function GamePlayPage() {
       </Row>
       <Row className="mt-4">
         <Col>
-          <Timer currentUser={currentUser} />
+          {currentUser?.username === user ? (
+            <Timer currentUser={currentUser} />
+          ) : null}
         </Col>
       </Row>
       <Row className="mt-3">
@@ -194,7 +196,6 @@ export default function GamePlayPage() {
           >
             Leave Game
           </Button>
-          {youWin && <p className="mt-2">You win</p>}
         </Col>
       </Row>
     </Container>
