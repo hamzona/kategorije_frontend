@@ -18,6 +18,7 @@ export default function CreateGamePage() {
       });
       console.log(result);
       gameName.current.value = "";
+      usersNumber.current.value = null;
     } catch (err) {
       console.log(err);
     }
