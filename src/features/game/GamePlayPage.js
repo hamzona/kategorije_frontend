@@ -83,7 +83,10 @@ export default function GamePlayPage() {
     input.current.value = "";
   }
   const user = useSelector(selectCurrentUser);
+  console.log(currentUser?.username);
 
+  console.log(user);
+  console.log(currentUser?.username !== user);
   return (
     <Container
       className="d-flex flex-column align-items-center"

@@ -27,7 +27,7 @@ export default function GameList() {
                   {item.socketID}
                 </div>
                 <Button
-                  style={{ margin: "0px 20px" }}
+                  style={{ margin: "0px 5vw" }}
                   onClick={() => {
                     navigate(`/game/${item.socketID}`);
                   }}
@@ -40,37 +40,14 @@ export default function GameList() {
         })}
       </div>
     );
-
-    {
-      /* 
-
-      <div>
-        {data.map((item) => {
-          return (
-            <div key={item._id}>
-              {item.name}
-              <br />
-              {item.socketID}
-              <button
-                onClick={() => {
-                  navigate(`/game/${item.socketID}`);
-                }}
-              >
-                Join
-              </button>
-            </div>
-          );
-        })}
-      </div> */
-    }
   } else if (isLoading) {
     content = <div>Loading...</div>;
   } else if (isError) {
     content = <div>{JSON.stringify(error)}</div>;
   }
   return (
-    <div className="m-5">
-      <h1 className="m-4">Game list</h1>
+    <div className="p-5">
+      <h1 className="p-4">Game list</h1>
       {content}
     </div>
   );
