@@ -59,19 +59,19 @@ export default function GameLoby({ setIsGamePlaying }) {
   }
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
-      <h1 className="m-4">Game Loby</h1>
+      <h1 className="p-4">Game Loby</h1>
       {/* {gameStartTimer ? (
         <GameStartsTimer setIsGamePlaying={setIsGamePlaying} />
       ) : ( */}
       <div
         className="d-flex flex-column justify-content-center align-items-center"
-        style={{ margin: "5rem" }}
+        style={{ padding: "5rem" }}
       >
         <SpinerAnimation />
         <div className="m-3">Waiting for players...</div>
       </div>
 
-      <div className="d-flex flex-row justify-content-center align-items-center m-3">
+      <div className="d-flex flex-row justify-content-center align-items-center p-3">
         {gamePlayersArray.map((_, index) => {
           return (
             <div key={index}>
@@ -84,7 +84,7 @@ export default function GameLoby({ setIsGamePlaying }) {
                 </div>
               ) : (
                 <Card
-                  style={{ width: "18rem" }}
+                  style={{ width: "15vw" }}
                   className="d-flex justify-content-center align-items-center m-3"
                 >
                   <Card.Body>
