@@ -66,7 +66,7 @@ const Singup = () => {
         {errMsg}
       </p>
 
-      <h1>Employee Singup</h1>
+      <h1>Signup</h1>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
