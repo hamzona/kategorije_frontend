@@ -16,7 +16,7 @@ export function SocketProvider({ children }) {
   //console.log(socket);
 
   useEffect(() => {
-    const newSocket = io("https://kategorije-backend.onrender.com");
+    const newSocket = io("http://localhost:3500");
     setSocket(newSocket);
 
     // return () => socket.close();
