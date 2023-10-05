@@ -77,14 +77,14 @@ export default function GameLoby({ setIsGamePlaying }) {
             <div key={index}>
               {!currentUsers[index]?.username ? (
                 <div
-                  style={{ width: "18rem", fontSize: "2rem", margin: "0 1rem" }}
+                  style={{ width: "20vw", fontSize: "2rem", margin: "0 1rem" }}
                   className="border-bottom border-dark text-center"
                 >
                   Player {index + 1}
                 </div>
               ) : (
                 <Card
-                  style={{ width: "15vw" }}
+                  style={{ width: "20vw" }}
                   className="d-flex justify-content-center align-items-center m-3"
                 >
                   <Card.Body>
