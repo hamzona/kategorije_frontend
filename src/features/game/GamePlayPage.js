@@ -19,6 +19,7 @@ export default function GamePlayPage() {
   const socket = useSocket();
 
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!socket) return;
     socket.on("update-game-data", ({ data }) => {
@@ -27,13 +28,19 @@ export default function GamePlayPage() {
       setCurrentUser(data.users[data.currentUserIndex]);
       setCoverdWords(data.coverdWords);
       localStorage.removeItem("timerSeconds");
-      console.log(data.users[data.currentUserIndex] === user);
       /*  if (data.users[data.currentUserIndex].username === user) {
         input.current.focus();
       }*/
     });
-    socket.on("redirect", () => {
-      navigate("/");
+
+    socket.on("timer-update", ({ seconds }) => {
+      console.log(seconds);
+    });
+    socket.on("redirect", ({ user: redirecUser }) => {
+      console.log(redirecUser);
+      if (redirecUser === user) {
+        navigate("/");
+      }
     });
 
     socket.on("win", () => {
@@ -56,8 +63,6 @@ export default function GamePlayPage() {
         setCurrentUser(d.users[d.currentUserIndex]);
         setCoverdWords(d.coverdWords);
 
-        console.log(d.users[d.currentUserIndex]);
-        console.log(d.users[d.currentUserIndex].username === user);
         /*if (d.users[d.currentUserIndex].username === user) {
           console.log(input.current);
           input.current.focus();
@@ -78,15 +83,12 @@ export default function GamePlayPage() {
   async function hendleSubmit(e) {
     e.preventDefault();
     if (!socket) return;
-    socket.emit("try", { input: input.current.value, socketID: id });
+    socket.emit("try", { input: input.current.value, socketID: id, user });
 
     input.current.value = "";
   }
   const user = useSelector(selectCurrentUser);
-  console.log(currentUser?.username);
 
-  console.log(user);
-  console.log(currentUser?.username !== user);
   return (
     <Container
       className="d-flex flex-column align-items-center"
