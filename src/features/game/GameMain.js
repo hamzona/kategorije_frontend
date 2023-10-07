@@ -29,7 +29,6 @@ export default function GameMain() {
 
     return function () {
       socket.emit("leave-room", { socketID: id, user });
-      console.log("izasao");
     };
   }, [socket]);
 
