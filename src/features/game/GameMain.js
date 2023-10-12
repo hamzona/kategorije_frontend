@@ -17,20 +17,12 @@ export default function GameMain() {
   useEffect(() => {
     if (socket == null) {
     } else {
-      socket.emit("join-user", { id, user });
+      socket.emit("join-user", { socketID: id, user });
     }
-  }, []);
-
-  useEffect(() => {
-    /*if (!socket) {
-    } else {
-      socket.emit("rejoin-user", { socketID: id });
-    }*/
-
     return function () {
       socket.emit("leave-room", { socketID: id, user });
     };
-  }, [socket]);
+  }, []);
 
   return isGamePlaying ? (
     <GamePlayPage setIsGamePlaying={setIsGamePlaying} />

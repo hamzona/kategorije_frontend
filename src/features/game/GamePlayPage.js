@@ -22,12 +22,12 @@ export default function GamePlayPage() {
   useEffect(() => {
     if (!socket) return;
     socket.on("update-game-data", ({ data }) => {
-      setCategory(data.category.name);
-      setUsers(data.users);
-      setCurrentUser(data.users[data.currentUserIndex]);
-      setCoverdWords(data.coverdWords);
+      setCategory(data?.category?.name);
+      setUsers(data?.users);
+      setCurrentUser(data?.users[data?.currentUserIndex]);
+      setCoverdWords(data?.coverdWords);
       localStorage.removeItem("timerSeconds");
-      console.log(data.users[data.currentUserIndex] === user);
+      //console.log(data.users[data.currentUserIndex] === user);
       /*  if (data.users[data.currentUserIndex].username === user) {
         input.current.focus();
       }*/
@@ -51,13 +51,13 @@ export default function GamePlayPage() {
       if (data?.data) {
         const d = data.data;
         console.log(d);
-        setCategory(d.category.name);
+        setCategory(d?.category?.name);
         setUsers(d.users);
-        setCurrentUser(d.users[d.currentUserIndex]);
-        setCoverdWords(d.coverdWords);
+        setCurrentUser(d?.users[d?.currentUserIndex]);
+        setCoverdWords(d?.coverdWords);
 
-        console.log(d.users[d.currentUserIndex]);
-        console.log(d.users[d.currentUserIndex].username === user);
+        // console.log(d.users[d.currentUserIndex]);
+        // console.log(d.users[d.currentUserIndex].username === user);
         /*if (d.users[d.currentUserIndex].username === user) {
           console.log(input.current);
           input.current.focus();
@@ -83,10 +83,10 @@ export default function GamePlayPage() {
     input.current.value = "";
   }
   const user = useSelector(selectCurrentUser);
-  console.log(currentUser?.username);
+  // console.log(currentUser?.username);
 
-  console.log(user);
-  console.log(currentUser?.username !== user);
+  // console.log(user);
+  // console.log(currentUser?.username !== user);
   return (
     <Container
       className="d-flex flex-column align-items-center"
@@ -188,7 +188,7 @@ export default function GamePlayPage() {
           </Row>
         </>
       )}
-      <Row className="mt-4">
+      {/* <Row className="mt-4">
         <Col>
           <Button
             variant="danger"
@@ -200,94 +200,7 @@ export default function GamePlayPage() {
             Leave Game
           </Button>
         </Col>
-      </Row>
+      </Row> */}
     </Container>
-    // <div
-    //   className="d-flex flex-column  align-items-center"
-    //   style={{ height: "90vh" }}
-    // >
-    //   <div>
-    //     <h2>
-    //       {" "}
-    //       Category:
-    //       <br />
-    //       {category}
-    //     </h2>
-    //   </div>
-
-    //   <div className="d-flex justify-content-around align-items-center">
-    //     <h3>Users remain: </h3>
-    //     <ListGroup>
-    //       {users.map((item) => {
-    //         return (
-    //           <ListGroup.Item
-    //             key={item._id}
-    //             style={{ color: `${item.username === user ? "red" : "black"}` }}
-    //             className="m-2"
-    //           >
-    //             {" "}
-    //             {item.username}
-    //           </ListGroup.Item>
-    //         );
-    //       })}
-    //     </ListGroup>
-    //   </div>
-    //   <div></div>
-    //   <div>
-    //     <div className="d-flex">
-    //       {coverdWords &&
-    //         coverdWords.map((item) => {
-    //           const i = item.charAt(0).toUpperCase() + item.slice(1);
-    //           return (
-    //             <div className="border p-2 font-bold rounded m-2" key={item}>
-    //               <s>{i}</s>
-    //             </div>
-    //           );
-    //         })}
-    //     </div>
-    //   </div>
-
-    //   <div>
-    //     <h1>
-    //       It's
-    //       {currentUser?.username !== user
-    //         ? " " + currentUser?.username + "'s "
-    //         : " your "}{" "}
-    //       turn
-    //     </h1>{" "}
-    //     <div>
-    //       {/* <Timer currentUser={currentUser} />{" "} */}
-    //       <Form onSubmit={hendleSubmit}>
-    //         <Form.Group className="mb-3" controlId="formBasicEmail">
-    //           {/* <Form.Label>Email address</Form.Label> */}
-
-    //           <InputGroup>
-    //             <Form.Control
-    //               autoFocus={true}
-    //               type="text"
-    //               placeholder="Enter word"
-    //               ref={input}
-    //               disabled={currentUser?.username !== user}
-    //             />
-
-    //             <Button type="submit">submit</Button>
-    //           </InputGroup>
-
-    //           {/* <Form.Tetypext className="text-muted">Enter word </Form.Text> */}
-    //         </Form.Group>
-    //       </Form>
-    //     </div>
-    //   </div>
-    //   <Button
-    //     variant="danger"
-    //     onClick={() => {
-    //       if (!socket) return;
-    //       socket.emit("lose-game", { socketID: id, user });
-    //     }}
-    //   >
-    //     Leave game
-    //   </Button>
-    //   {youWin ? "You win" : null}
-    // </div>
   );
 }

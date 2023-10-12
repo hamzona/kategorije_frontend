@@ -10,20 +10,15 @@ export default function GameLoby({ setIsGamePlaying }) {
   const { id } = useParams();
   const socket = useSocket();
   useEffect(() => {
+    console.log(socket);
     if (!socket) return;
 
-    socket.on("game-start", () => {
-      setIsGamePlaying(true);
-      localStorage.removeItem("timerSeconds");
-    });
-
-    socket.on("update-user", ({ users, usersNumber }) => {
-      /*if (users !== usersNumber) {
-        setGameStartTimer(false);
-      }*/
-
-      setCurrentUsers(users);
-      setGamePlayersNumber(usersNumber);
+    socket.on("update-loby", ({ data }) => {
+      console.log("update-loby");
+      console.log(data);
+      setCurrentUsers(data.users);
+      setGamePlayersNumber(data.usersNumber);
+      setIsGamePlaying(data.isGamePlaying);
     });
   }, [socket]);
 
@@ -37,9 +32,6 @@ export default function GameLoby({ setIsGamePlaying }) {
           setCurrentUsers(result.data.users);
           setGamePlayersNumber(result.data.usersNumber);
           setIsGamePlaying(result.data.isGamePlaying);
-          if (result.data.usersNumber.length === result.data.users.length) {
-            // setGameStartTimer(true);
-          }
         }
         console.log(result);
       } catch (e) {
@@ -48,7 +40,6 @@ export default function GameLoby({ setIsGamePlaying }) {
     }
     a();
   }, []);
-  const [gameStartTimer, setGameStartTimer] = useState(false);
   const [currentUsers, setCurrentUsers] = useState([]);
   const [gamePlayersNumber, setGamePlayersNumber] = useState(null);
 
@@ -60,9 +51,7 @@ export default function GameLoby({ setIsGamePlaying }) {
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
       <h1 className="p-4">Game Loby</h1>
-      {/* {gameStartTimer ? (
-        <GameStartsTimer setIsGamePlaying={setIsGamePlaying} />
-      ) : ( */}
+
       <div
         className="d-flex flex-column justify-content-center align-items-center"
         style={{ padding: "5rem" }}
