@@ -33,12 +33,12 @@ export default function GamePlayPage() {
       console.log("WIN");
       setYouWin(true);
     });
-    // socket.on("redirect", ({ user: a }) => {
-    //   console.log(a);
-    //   if (a === user) {
-    //     navigate("/");
-    //   }
-    // });
+    socket.on("redirect", ({ user: a }) => {
+      console.log(a);
+      if (a === user) {
+        navigate("/");
+      }
+    });
 
     socket.on("wrong-try", ({ wrongExamples: a }) => {
       console.log("wrong-try", a);
@@ -163,7 +163,7 @@ export default function GamePlayPage() {
         </Col>
       </Row>
       {youWin ? (
-        <div style={{ color: "green", fontSize: "4vw" }}>You win</div>
+        <h1 style={{ color: "green" }}>You win</h1>
       ) : (
         <>
           <Row className="mt-3">
