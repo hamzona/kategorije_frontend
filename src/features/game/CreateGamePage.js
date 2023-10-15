@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { useCreateGameMutation } from "./gameApiSlice";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../auth/authSlice";
 
 export default function CreateGamePage() {
   const [createGame] = useCreateGameMutation();
@@ -10,6 +12,7 @@ export default function CreateGamePage() {
   const usersNumber = useRef(null);
 
   const navigate = useNavigate();
+  const user = useSelector(selectCurrentUser);
   async function hendleSubmit(e) {
     e.preventDefault();
     try {
@@ -17,6 +20,7 @@ export default function CreateGamePage() {
       //   return;
       const result = await createGame({
         usersNumber: usersNumber.current.value,
+        creator: user,
       });
       console.log(result);
       if (result.data) {
