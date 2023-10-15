@@ -30,11 +30,15 @@ export default function GamePlayPage() {
       localStorage.removeItem("timerSeconds");
     });
     socket.on("win", () => {
+      console.log("WIN");
       setYouWin(true);
     });
-    socket.on("redirect", () => {
-      navigate("/");
-    });
+    // socket.on("redirect", ({ user: a }) => {
+    //   console.log(a);
+    //   if (a === user) {
+    //     navigate("/");
+    //   }
+    // });
 
     socket.on("wrong-try", ({ wrongExamples: a }) => {
       console.log("wrong-try", a);
