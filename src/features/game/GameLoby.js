@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSocket } from "../../context/SocketProvider";
 import { useGetDataMutation } from "./gameApiSlice";
-import { useParams } from "react-router-dom";
-import { Card } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import SpinerAnimation from "../../components/SpinerAnimation";
 import GameStartsTimer from "../../components/GameStartsTimer";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../auth/authSlice";
 
 export default function GameLoby({ setIsGamePlaying }) {
   const { id } = useParams();
@@ -34,6 +36,9 @@ export default function GameLoby({ setIsGamePlaying }) {
           setIsGamePlaying(result.data.isGamePlaying);
         }
         console.log(result);
+        if (!result.data) {
+          navigate("/");
+        }
       } catch (e) {
         console.log(e);
       }
@@ -48,43 +53,54 @@ export default function GameLoby({ setIsGamePlaying }) {
   for (let i = 0; i < gamePlayersNumber; i++) {
     gamePlayersArray.push(null);
   }
+  const user = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
-      <h1 className="p-4">Game Loby</h1>
+    <Container className="d-flex flex-column justify-content-center align-items-center">
+      <h1 className="p-4">ID : {id}</h1>
 
-      <div
+      <Row
         className="d-flex flex-column justify-content-center align-items-center"
         style={{ padding: "5rem" }}
       >
         <SpinerAnimation />
         <div className="m-3">Waiting for players...</div>
-      </div>
+      </Row>
 
-      <div className="d-flex flex-row justify-content-center align-items-center p-3">
-        {gamePlayersArray.map((_, index) => {
-          return (
-            <div key={index}>
-              {!currentUsers[index]?.username ? (
-                <div
-                  style={{ width: "20vw", fontSize: "2rem", margin: "0 1rem" }}
-                  className="border-bottom border-dark text-center"
-                >
-                  Player {index + 1}
-                </div>
-              ) : (
-                <Card
-                  style={{ width: "20vw" }}
-                  className="d-flex justify-content-center align-items-center m-3"
-                >
-                  <Card.Body>
-                    <Card.Title>{currentUsers[index].username}</Card.Title>
-                  </Card.Body>
-                </Card>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+      <Row className="d-flex flex-row justify-content-center align-items-center flex-wrap p-3">
+        {gamePlayersArray.map((_, index) => (
+          <Col key={index} style={{ maxWidth: "130px" }}>
+            {!currentUsers[index]?.username ? (
+              <div
+                style={{ fontSize: "2rem" }}
+                className="border-bottom border-dark text-center"
+              >
+                Player {index + 1}
+              </div>
+            ) : (
+              <Card style={{ width: "100%" }}>
+                <Card.Body className="d-flex justify-content-center align-items-center m-3">
+                  <Card.Title>{currentUsers[index].username}</Card.Title>
+                </Card.Body>
+              </Card>
+            )}
+          </Col>
+        ))}
+      </Row>
+      <Row className="mt-4">
+        <Col>
+          <Button
+            variant="danger"
+            onClick={() => {
+              if (!socket) return;
+              navigate("/");
+              socket.emit("lose-game", { socketID: id, user });
+            }}
+          >
+            Leave Game
+          </Button>
+        </Col>
+      </Row>
+    </Container>
   );
 }

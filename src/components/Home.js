@@ -1,10 +1,10 @@
 import React from "react";
-import GameList from "../features/game/GameList";
+import GamesMenu from "../features/game/GamesMenu";
 
 export default function Home() {
   return (
     <div className="d-flex justify-content-center" style={{ width: "100vw" }}>
-      <GameList />
+      <GamesMenu />
     </div>
   );
 }

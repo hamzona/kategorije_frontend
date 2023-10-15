@@ -1,21 +1,39 @@
-import React from "react";
-import { useGetGamesQuery } from "./gameApiSlice";
+import React, { useEffect, useState } from "react";
+import { useGetGamesMutation } from "./gameApiSlice";
 import { useNavigate } from "react-router-dom";
-import { Badge, Button, ListGroup } from "react-bootstrap";
-//import { useSocketID } from "../../context/SocketIDProvider";
+import { Button, ListGroup } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../auth/authSlice";
 
 export default function GameList() {
-  const { data, isLoading, isError, isSuccess, error } = useGetGamesQuery();
+  const [getGames] = useGetGamesMutation();
 
-  // const { socketID } = useSocketID();
-  // console.log(socketID);
+  const user = useSelector(selectCurrentUser);
+
   const navigate = useNavigate();
+  useEffect(() => {
+    async function a() {
+      try {
+        const result = await getGames({ creator: user });
 
-  let content;
-  if (isSuccess) {
-    content = (
+        console.log(result);
+        if (result?.data) {
+          setGames(result.data);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    a();
+  }, []);
+
+  const [games, setGames] = useState([]);
+
+  return (
+    <div className="p-5">
+      <h1 className="p-4">My games</h1>
       <div>
-        {data.map((item) => {
+        {games.map((item) => {
           return (
             <ListGroup key={item._id} as="ol">
               <ListGroup.Item
@@ -23,8 +41,8 @@ export default function GameList() {
                 className="d-flex justify-content-between align-items-center"
               >
                 <div className="ms-2 me-auto">
-                  <div className="fw-bold"> {item.name}</div>
-                  {item.socketID}
+                  <div className="fw-bold"> {item.socketID}</div>
+                  users: {item.usersNumber}
                 </div>
                 <Button
                   style={{ margin: "0px 5vw" }}
@@ -39,16 +57,6 @@ export default function GameList() {
           );
         })}
       </div>
-    );
-  } else if (isLoading) {
-    content = <div>Loading...</div>;
-  } else if (isError) {
-    content = <div>{JSON.stringify(error)}</div>;
-  }
-  return (
-    <div className="p-5">
-      <h1 className="p-4">Game list</h1>
-      {content}
     </div>
   );
 }

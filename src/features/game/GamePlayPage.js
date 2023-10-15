@@ -26,18 +26,20 @@ export default function GamePlayPage() {
       setUsers(data?.users);
       setCurrentUser(data?.users[data?.currentUserIndex]);
       setCoverdWords(data?.coverdWords);
+      setWrongExamples(data?.wrongExamples);
       localStorage.removeItem("timerSeconds");
-      //console.log(data.users[data.currentUserIndex] === user);
-      /*  if (data.users[data.currentUserIndex].username === user) {
-        input.current.focus();
-      }*/
     });
-    socket.on("redirect", () => {
-      navigate("/");
-    });
-
     socket.on("win", () => {
       setYouWin(true);
+    });
+
+    socket.on("redirect-to-home", () => {
+      console.log("redirect to home");
+    });
+    socket.on("wrong-try", ({ wrongExamples: a }) => {
+      console.log("wrong-try", a);
+      setWrongExamples(a);
+      //setValidated(false);
     });
   }, [socket]);
 
@@ -55,13 +57,6 @@ export default function GamePlayPage() {
         setUsers(d.users);
         setCurrentUser(d?.users[d?.currentUserIndex]);
         setCoverdWords(d?.coverdWords);
-
-        // console.log(d.users[d.currentUserIndex]);
-        // console.log(d.users[d.currentUserIndex].username === user);
-        /*if (d.users[d.currentUserIndex].username === user) {
-          console.log(input.current);
-          input.current.focus();
-        }*/
       }
     }
     a();
@@ -73,6 +68,7 @@ export default function GamePlayPage() {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [coverdWords, setCoverdWords] = useState([]);
+  const [wrongExamples, setWrongExamples] = useState([]);
   const [youWin, setYouWin] = useState(false);
 
   async function hendleSubmit(e) {
@@ -83,10 +79,9 @@ export default function GamePlayPage() {
     input.current.value = "";
   }
   const user = useSelector(selectCurrentUser);
-  // console.log(currentUser?.username);
 
-  // console.log(user);
-  // console.log(currentUser?.username !== user);
+  //const [validated, setValidated] = useState(true);
+
   return (
     <Container
       className="d-flex flex-column align-items-center"
@@ -99,9 +94,7 @@ export default function GamePlayPage() {
       </Row>
       <Row className="mt-4">
         <Col>
-          {currentUser?.username === user ? (
-            <Timer currentUser={currentUser} />
-          ) : null}
+          <Timer currentUser={currentUser} />
         </Col>
       </Row>
       <Row className="mt-3">
@@ -142,7 +135,7 @@ export default function GamePlayPage() {
             turn
           </h1>
           <div>
-            <Form onSubmit={hendleSubmit}>
+            <Form /*validated={validated}*/ onSubmit={hendleSubmit}>
               <Form.Group controlId="formBasicEmail">
                 <InputGroup>
                   <Form.Control
@@ -157,13 +150,18 @@ export default function GamePlayPage() {
               </Form.Group>
             </Form>
           </div>
+          <div>
+            {" "}
+            {wrongExamples.map((item, index) => {
+              return <div key={index}>{item}</div>;
+            })}
+          </div>
         </Col>
       </Row>
       {youWin ? (
         <div style={{ color: "green", fontSize: "4vw" }}>You win</div>
       ) : (
         <>
-          {" "}
           <Row className="mt-3">
             <Col>
               <h3>Users Remaining:</h3>
@@ -188,19 +186,6 @@ export default function GamePlayPage() {
           </Row>
         </>
       )}
-      {/* <Row className="mt-4">
-        <Col>
-          <Button
-            variant="danger"
-            onClick={() => {
-              if (!socket) return;
-              socket.emit("lose-game", { socketID: id, user });
-            }}
-          >
-            Leave Game
-          </Button>
-        </Col>
-      </Row> */}
     </Container>
   );
 }

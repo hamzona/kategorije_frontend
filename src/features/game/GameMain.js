@@ -15,14 +15,20 @@ export default function GameMain() {
   const [isGamePlaying, setIsGamePlaying] = useState(false);
 
   useEffect(() => {
+    console.log(socket);
+
     if (socket == null) {
     } else {
       socket.emit("join-user", { socketID: id, user });
     }
+
     return function () {
+      console.log(socket);
+      if (!socket) return;
       socket.emit("leave-room", { socketID: id, user });
+      socket.removeAllListeners();
     };
-  }, []);
+  }, [socket]);
 
   return isGamePlaying ? (
     <GamePlayPage setIsGamePlaying={setIsGamePlaying} />

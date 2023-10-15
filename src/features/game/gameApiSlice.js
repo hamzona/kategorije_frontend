@@ -2,10 +2,11 @@ import { apiSlice } from "../../app/api/apiSlice";
 
 const gameSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getGames: builder.query({
-      query: () => ({
+    getGames: builder.mutation({
+      query: (credentials) => ({
         url: "/game/getGames",
-        method: "GET",
+        method: "POST",
+        body: { ...credentials },
       }),
       providesTags: ["Games"],
     }),
@@ -30,12 +31,22 @@ const gameSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    findGame: builder.mutation({
+      query: (credentials) => ({
+        url: `/game/findGame`,
+        method: "POST",
+        body: { ...credentials },
+      }),
+      // invalidatesTags: ["Games"],
+    }),
   }),
 });
 
 export const {
   useCreateGameMutation,
-  useGetGamesQuery,
+  useGetGamesMutation,
   useGetDataMutation,
   useGetOneGameQuery,
+  useFindGameMutation,
 } = gameSlice;

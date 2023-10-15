@@ -7,6 +7,7 @@ import SignUp from "./components/SignUp";
 import CreateGamePage from "./features/game/CreateGamePage";
 import Home from "././components/Home";
 import GameMain from "./features/game/GameMain";
+import GameList from "./features/game/GameList";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/createGame" element={<CreateGamePage />} />
             <Route path="/game/:id" element={<GameMain />} />
+            <Route path="/myGames" element={<GameList />} />
           </Route>
         </Route>
       </Route>

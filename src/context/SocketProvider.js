@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import io from "socket.io-client";
 import { useSelector } from "react-redux";
+import io from "socket.io-client";
 import { selectCurrentUser } from "../features/auth/authSlice";
 
 const SocketContext = React.createContext();
@@ -12,16 +12,26 @@ export function useSocket() {
 export function SocketProvider({ children }) {
   const [socket, setSocket] = useState(null);
 
-  //const user = useSelector(selectCurrentUser);
-  //console.log(socket);
+  const user = useSelector(selectCurrentUser);
+  useEffect(() => {
+    if (!user) return;
+    const newSocket = io("http://localhost:3500", {
+      query: {
+        user,
+      },
+    });
+    setSocket(newSocket);
+  }, [user]);
 
   useEffect(() => {
-    const newSocket = io("https://kategorije-backend.onrender.com");
-    setSocket(newSocket);
+    return () => {
+      if (!socket) return;
 
-    return () => socket.close();
-  }, []);
-
+      console.log(socket);
+      socket.close();
+    };
+  }, [socket]);
+  console.log(socket);
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   );

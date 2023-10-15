@@ -1,22 +1,27 @@
 import React, { useEffect, useRef } from "react";
 import { useCreateGameMutation } from "./gameApiSlice";
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateGamePage() {
   const [createGame] = useCreateGameMutation();
 
   const gameName = useRef("");
   const usersNumber = useRef(null);
+
+  const navigate = useNavigate();
   async function hendleSubmit(e) {
     e.preventDefault();
     try {
       // if (usersNumber.current.value < 2 || usersNumber.current.value > 6)
       //   return;
       const result = await createGame({
-        name: gameName.current.value,
         usersNumber: usersNumber.current.value,
       });
       console.log(result);
+      if (result.data) {
+        navigate(`/game/${result.data.socketID}`);
+      }
       gameName.current.value = "";
       usersNumber.current.value = null;
     } catch (err) {
@@ -33,14 +38,6 @@ export default function CreateGamePage() {
 
       <Form onSubmit={hendleSubmit} className="border p-4 rounded">
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Game name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter game name"
-            ref={gameName}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Number of players</Form.Label>
           <Form.Control
             type="number"
@@ -52,11 +49,6 @@ export default function CreateGamePage() {
           Submit
         </Button>
       </Form>
-      {/* <form onSubmit={hendleSubmit}>
-        <input type="text" ref={gameName} />
-        <input type="number" ref={usersNumber} />
-        <button type="submit">submit</button>
-      </form> */}
     </div>
   );
 }
