@@ -32,10 +32,10 @@ export default function GamePlayPage() {
     socket.on("win", () => {
       setYouWin(true);
     });
-
-    socket.on("redirect-to-home", () => {
-      console.log("redirect to home");
+    socket.on("redirect", () => {
+      navigate("/");
     });
+
     socket.on("wrong-try", ({ wrongExamples: a }) => {
       console.log("wrong-try", a);
       setWrongExamples(a);
