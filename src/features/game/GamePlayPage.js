@@ -61,6 +61,7 @@ export default function GamePlayPage() {
         setUsers(d.users);
         setCurrentUser(d?.users[d?.currentUserIndex]);
         setCoverdWords(d?.coverdWords);
+        setYouWin(d?.win);
       }
     }
     a();
@@ -96,11 +97,13 @@ export default function GamePlayPage() {
           <h2>Category: {category}</h2>
         </Col>
       </Row>
-      <Row className="mt-4">
-        <Col>
-          <Timer currentUser={currentUser} />
-        </Col>
-      </Row>
+      {youWin ? null : (
+        <Row className="mt-4">
+          <Col>
+            <Timer currentUser={currentUser} />
+          </Col>
+        </Row>
+      )}
       <Row className="mt-3">
         <Col>
           <div
