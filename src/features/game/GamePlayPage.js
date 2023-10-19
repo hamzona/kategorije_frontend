@@ -79,7 +79,7 @@ export default function GamePlayPage() {
   async function hendleSubmit(e) {
     e.preventDefault();
     if (!socket) return;
-    socket.emit("try", { input: input.current.value, socketID: id });
+    socket.emit("try", { input: input.current.value.trim(), socketID: id });
 
     input.current.value = "";
   }
@@ -176,19 +176,17 @@ export default function GamePlayPage() {
           </Row>
           <Row>
             <Col>
-              <ListGroup>
-                {users.map((item) => (
-                  <ListGroup.Item
-                    key={item._id}
-                    style={{
-                      color: `${item.username === user ? "red" : "black"}`,
-                    }}
-                    className="m-2"
-                  >
-                    {item.username}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
+              {users.map((item) => (
+                <div
+                  key={item._id}
+                  style={{
+                    color: `${item.username === currentUser ? "black" : "red"}`,
+                  }}
+                  className="m-2 p-2 border border-dark rounded"
+                >
+                  {item.username}
+                </div>
+              ))}
             </Col>
           </Row>
         </>

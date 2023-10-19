@@ -15,7 +15,7 @@ export function SocketProvider({ children }) {
   const user = useSelector(selectCurrentUser);
   useEffect(() => {
     if (!user) return;
-    const newSocket = io("https://kategorije-backend.onrender.com", {
+    const newSocket = io("http://localhost:3500", {
       query: {
         user,
       },

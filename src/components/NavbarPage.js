@@ -27,7 +27,11 @@ export default function NavbarPage() {
             Create game
           </Link>
           <Link
-            style={{ textDecoration: "none", color: "white" }}
+            style={{
+              marginRight: "1rem",
+              textDecoration: "none",
+              color: "white",
+            }}
             to="/myGames"
           >
             My games{" "}

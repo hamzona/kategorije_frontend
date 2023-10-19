@@ -45,7 +45,6 @@ export default function GamesMenu() {
             }}
           >
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Number of players</Form.Label>
               <Form.Control
                 type="number"
                 placeholder="Enter number of players"
@@ -72,7 +71,6 @@ export default function GamesMenu() {
             }}
           >
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Enter ID</Form.Label>
               <Form.Control type="string" placeholder="Enter ID" ref={IDref} />
             </Form.Group>
             <Button variant="primary" type="submit">
