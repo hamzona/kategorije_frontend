@@ -107,7 +107,7 @@ const Login = () => {
           submit
         </Button>
         <Form.Text muted>
-          If you dont have account already <Link to={"/singup"}>singup</Link>
+          If you dont have account already <Link to={"/signup"}>sign up</Link>
         </Form.Text>
       </Form>
     </Container>

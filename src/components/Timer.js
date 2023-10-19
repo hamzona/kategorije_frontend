@@ -15,6 +15,6 @@ export default function Timer({ currentUser }) {
   }, [socket]);
 
   return (
-    <CircularProgressbar value={(seconds / 30) * 100} text={`${seconds} s`} />
+    <CircularProgressbar value={(seconds / 15) * 100} text={`${seconds} s`} />
   );
 }
