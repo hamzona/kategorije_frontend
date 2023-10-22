@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/auth/authSlice";
 import { useSingupMutation } from "../features/auth/authApiSlice";
-import { Button, Container, Form } from "react-bootstrap";
+import { Alert, Button, Container, Form } from "react-bootstrap";
 
 const Singup = () => {
   const userRef = useRef();
@@ -43,10 +43,12 @@ const Singup = () => {
         setErrMsg("Missing Username or Password");
       } else if (err.originalStatus === 401) {
         setErrMsg("Unauthorized");
+      } else if (err.originalStatus === 409) {
+        setErrMsg("User already exsist");
       } else {
         setErrMsg("Login Failed");
       }
-      errRef.current.focus();
+      //errRef.current.focus();
     }
   };
 
@@ -107,7 +109,6 @@ const Singup = () => {
 
       <Form
         noValidate
-        //validated={validated}
         onSubmit={handleSubmit}
         style={{ display: "flex", flexDirection: "column" }}
       >
@@ -141,7 +142,11 @@ const Singup = () => {
         Password is required!!
       </Form.Control.Feedback> */}
         </Form.Group>
-
+        {errMsg ? (
+          <Alert className="m-3" variant="danger">
+            {errMsg}
+          </Alert>
+        ) : null}
         <Button style={{ marginTop: "15px" }} type="submit">
           submit
         </Button>

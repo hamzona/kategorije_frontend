@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "./authSlice";
 import { useLoginMutation } from "./authApiSlice";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 
 const Login = () => {
   const userRef = useRef();
@@ -35,13 +35,14 @@ const Login = () => {
       setPwd("");
       navigate("/");
     } catch (err) {
+      console.log(err?.originalStatus);
       if (!err?.originalStatus) {
         // isLoading: true until timeout occurs
         setErrMsg("No Server Response");
       } else if (err.originalStatus === 400) {
         setErrMsg("Missing Username or Password");
       } else if (err.originalStatus === 401) {
-        setErrMsg("Unauthorized");
+        setErrMsg("Password or username is incorrect");
       } else {
         setErrMsg("Login Failed");
       }
@@ -52,6 +53,8 @@ const Login = () => {
   const handleUserInput = (e) => setUser(e.target.value);
 
   const handlePwdInput = (e) => setPwd(e.target.value);
+
+  // const [validated, setValidated] = useState(false);
 
   return (
     <Container
@@ -68,7 +71,6 @@ const Login = () => {
 
       <Form
         noValidate
-        //validated={validated}
         onSubmit={handleSubmit}
         style={{ display: "flex", flexDirection: "column" }}
       >
@@ -82,10 +84,11 @@ const Login = () => {
             onChange={handleUserInput}
             placeholder="nickname"
             required
+            // isInvalid={validated || user.length === 0} // Check if the field is invalid
           />
-          {/* <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type="invalid">
             Nickname is required!!
-          </Form.Control.Feedback> */}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group>
@@ -97,15 +100,21 @@ const Login = () => {
             onChange={handlePwdInput}
             placeholder="password"
             required
+            //isInvalid={validated || pwd.length === 0} // Check if the field is invalid
           />
-          {/* <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type="invalid">
             Password is required!!
-          </Form.Control.Feedback> */}
+          </Form.Control.Feedback>
         </Form.Group>
-
+        {errMsg ? (
+          <Alert className="m-3" variant="danger">
+            {errMsg}
+          </Alert>
+        ) : null}
         <Button style={{ marginTop: "15px" }} type="submit">
           submit
         </Button>
+
         <Form.Text muted>
           If you dont have account already <Link to={"/signup"}>sign up</Link>
         </Form.Text>
