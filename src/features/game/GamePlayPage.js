@@ -132,43 +132,43 @@ export default function GamePlayPage() {
         </Col>
       </Row>
 
-      <Row className="mt-4 ">
-        <Col>
-          <h1 className="mb-4">
-            It's
-            {currentUser?.username !== user
-              ? ` ${currentUser?.username}'s `
-              : " your "}
-            turn
-          </h1>
-          <div>
-            <Form /*validated={validated}*/ onSubmit={hendleSubmit}>
-              <Form.Group controlId="formBasicEmail">
-                <InputGroup>
-                  <Form.Control
-                    autoFocus={true}
-                    type="text"
-                    placeholder="Enter word"
-                    ref={input}
-                    disabled={currentUser?.username !== user}
-                  />
-                  <Button type="submit">Submit</Button>
-                </InputGroup>
-              </Form.Group>
-            </Form>
-          </div>
-          <div>
-            {" "}
-            {wrongExamples.map((item, index) => {
-              return <div key={index}>{item}</div>;
-            })}
-          </div>
-        </Col>
-      </Row>
       {youWin ? (
         <h1 style={{ color: "green" }}>You win</h1>
       ) : (
         <>
+          <Row className="mt-4 ">
+            <Col>
+              <h1 className="mb-4">
+                {currentUser?.username !== user
+                  ? `${currentUser?.username} `
+                  : "You "}
+                play
+              </h1>
+              <div>
+                <Form /*validated={validated}*/ onSubmit={hendleSubmit}>
+                  <Form.Group controlId="formBasicEmail">
+                    <InputGroup>
+                      <Form.Control
+                        autoFocus={true}
+                        type="text"
+                        placeholder="Enter word"
+                        ref={input}
+                        disabled={currentUser?.username !== user}
+                      />
+                      <Button type="submit">Submit</Button>
+                    </InputGroup>
+                  </Form.Group>
+                </Form>
+              </div>
+              <div>
+                {" "}
+                {wrongExamples.map((item, index) => {
+                  return <div key={index}>{item}</div>;
+                })}
+              </div>
+            </Col>
+          </Row>
+
           <Row className="mt-3">
             <Col>
               <h3>Users Remaining:</h3>
@@ -180,7 +180,15 @@ export default function GamePlayPage() {
                 <div
                   key={item._id}
                   style={{
-                    color: `${item.username === currentUser ? "black" : "red"}`,
+                    background: `${
+                      item.username === currentUser.username ? "red" : "white"
+                    }`,
+                    color: `${
+                      item.username === currentUser.username ? "white" : "black"
+                    }`,
+                    fontWeight: `${
+                      item.username === currentUser.username ? "bold" : ""
+                    }`,
                   }}
                   className="m-2 p-2 border border-dark rounded"
                 >
